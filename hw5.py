@@ -6,12 +6,13 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 def get_top_10_weekly_trending_movies():
-    TMDB_MOVIE_SEARCH_API_REQUEST = f'https://api.themoviedb.org/3/trending/all/day'
+    # TMDB_MOVIE_PATH = '/p/exports/movie_ids_MM_DD_YYYY.json.gz'
+    TMDB_MOVIE_SEARCH_API_REQUEST = f'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1'
 
     response = requests.get(
         TMDB_MOVIE_SEARCH_API_REQUEST,
         params={
-          'api-key': os.getenv('TMDB_API_KEY')
+          'api_key': os.getenv('TMDB_API_KEY'),
       }
     )
 
@@ -20,7 +21,9 @@ def get_top_10_weekly_trending_movies():
     print(pretty_json_data)
 
     weekly_trending_movie_object = json_data
-    weekly_trending_move_list = weekly_trending_movie_object['results'][0]['title']
+    weekly_trending_movie_list = weekly_trending_movie_object['results'][0]['title']
+
+    article_objects = json_data['response']['docs']
 
     for i in range(10):
-       print(weekly_trending_move_list)
+        print(weekly_trending_movie_list['results'][i]['title'])
